@@ -1,7 +1,9 @@
 'use client';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import Posts from './Posts';
+
+const Posts = dynamic(() => import('./Posts'));
 
 const Main = () => {
   const [clickCount, setClickCount] = useState(0);
@@ -9,7 +11,6 @@ const Main = () => {
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
-    console.log('🚀 ~ useEffect ~ clickCount:', clickCount);
     if (clickCount > 0) {
       timer = setTimeout(() => {
         setClickCount(0);
@@ -27,7 +28,7 @@ const Main = () => {
   };
 
   return (
-    <div
+    <main
       className='h-dvh w-full p-4 pt-24 flex flex-col justify-start'
       onClick={handleClick}
     >
@@ -40,7 +41,7 @@ const Main = () => {
           Admin
         </Link>
       )}
-    </div>
+    </main>
   );
 };
 

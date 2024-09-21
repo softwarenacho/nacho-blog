@@ -11,7 +11,7 @@ const Card = ({
   admin: boolean;
   setNew: (post: PostProps) => void;
 }) => (
-  <div className='relative p-4 bg-white shadow-md rounded group hover:shadow-lg transition-shadow min-w-full md:min-w-[48rem] max-w-4xl'>
+  <article className='relative p-4 bg-white shadow-md rounded group hover:shadow-lg transition-shadow min-w-full md:min-w-[48rem] max-w-4xl'>
     <h2 className='text-2xl whitespace-break-spaces'>{post.title}</h2>
     <pre className='text-gray-600 whitespace-break-spaces'>{post.content}</pre>
     <span
@@ -27,11 +27,16 @@ const Card = ({
           className='appearence-none drop-shadow-lg hover:drop-shadow-xl hover:scale-110 bg-white border border-blue-500 rounded-full h-6 w-6 flex justify-center items-center'
           onClick={() => setNew(post)}
         >
-          <Image src='/assets/edit.svg' alt='New Post' width={16} height={16} />
+          <Image
+            src='/assets/icons/edit.svg'
+            alt='New Post'
+            width={16}
+            height={16}
+          />
         </button>
       </div>
     )}
-  </div>
+  </article>
 );
 
 export default Card;

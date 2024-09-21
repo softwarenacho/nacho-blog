@@ -1,8 +1,11 @@
 'use client';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useState } from 'react';
-import NewPost from './NewPost';
-import Posts, { PostProps } from './Posts';
+import { PostProps } from './Posts';
+
+const NewPost = dynamic(() => import('../_components/NewPost'));
+const Posts = dynamic(() => import('../_components/Posts'));
 
 const emptyPost: PostProps = {
   id: null,
@@ -28,7 +31,7 @@ const Admin = () => {
 
     if (response.ok) {
       const data = await response.json();
-      setPosts((prevPosts) => [...prevPosts, data]);
+      setPosts([...posts, data]);
       setNotification('Post saved successfully!');
       setNewPost(emptyPost);
       setShowNew(false);
@@ -39,7 +42,6 @@ const Admin = () => {
       const error = await response.json();
       console.error('Error saving post:', error);
     }
-    console.log('posts', posts);
   };
 
   const handleEdit = (post: PostProps) => {
@@ -57,10 +59,11 @@ const Admin = () => {
         >
           <Image
             className={showNew ? 'rotate-45 grayscale' : ''}
-            src='/assets/new.svg'
+            src='/assets/icons/new.svg'
             alt='New Post'
             width={32}
             height={32}
+            priority={true}
           />
         </button>
       </h1>

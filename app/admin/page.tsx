@@ -1,10 +1,12 @@
 'use client';
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
-import Admin from '../_components/Admin';
+
+const Admin = dynamic(() => import('../_components/Admin'));
 
 const AdminPage = () => {
   const [password, setPassword] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true); // false
   const [error, setError] = useState('');
 
   const handleLogin = async (e: React.FormEvent) => {

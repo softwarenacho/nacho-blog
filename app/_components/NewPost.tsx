@@ -36,7 +36,7 @@ const NewPost = ({ newPost, handleSave, setNewPost }: NewPostProps) => {
         value={newPost.content}
         onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
         placeholder='Write...'
-        className='w-full p-2 rounded mb-4 appearance-none overflow-auto max-h-[50dvh]'
+        className='w-full p-2 pl-4 rounded mb-4 appearance-none overflow-auto max-h-[50dvh]'
         rows={2}
       />
       <button

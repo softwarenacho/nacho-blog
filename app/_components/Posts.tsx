@@ -1,8 +1,9 @@
 'use client';
-import React, { Suspense, useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+import { Suspense, useEffect, useState } from 'react';
 import Loader from './Loader';
 
-const PostCard = React.lazy(() => import('./Card'));
+const Card = dynamic(() => import('./Card'));
 
 export interface PostProps {
   id: number | null;
@@ -19,7 +20,7 @@ const Posts = ({
   setNew?: (post: PostProps) => void;
 }) => {
   const [posts, setPosts] = useState<PostProps[]>([]);
-  const test = true;
+  const test = true; // TESTING FLAG
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -42,13 +43,13 @@ const Posts = ({
   }, [test]);
 
   return (
-    <div className='flex flex-col items-center space-y-8 overflow-scroll py-4 md:px-8'>
+    <section className='flex flex-col items-center space-y-8 overflow-scroll py-4 md:px-8'>
       <Suspense fallback={<Loader />}>
         {posts.map((post) => (
-          <PostCard key={post.id} post={post} admin={admin} setNew={setNew} />
+          <Card key={post.id} post={post} admin={admin} setNew={setNew} />
         ))}
       </Suspense>
-    </div>
+    </section>
   );
 };
 
