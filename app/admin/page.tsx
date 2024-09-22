@@ -6,7 +6,7 @@ const Admin = dynamic(() => import('../_components/Admin'));
 
 const AdminPage = () => {
   const [password, setPassword] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState(true); // false
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // false
   const [error, setError] = useState('');
 
   const handleLogin = async (e: React.FormEvent) => {
