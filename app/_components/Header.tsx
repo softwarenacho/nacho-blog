@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 
 const Header = () => {
   const [openMenu, setOpenMenu] = useState(false);
-  const tags = ['all', 'quote', 'code', 'me', 'idea', 'design', 'test', 'link'];
+  const tags = ['all', 'quote', 'code', 'me', 'idea', 'design', 'link'];
   const menuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
