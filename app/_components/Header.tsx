@@ -51,7 +51,7 @@ const Header = () => {
       {openMenu && (
         <div
           ref={menuRef}
-          className='fixed z-10 top-20 left-8 bg-blue-[#60a5fa] border-white border shadow-lg hover:shadow-xl p-4 space-y-4 w-48 rounded-xl'
+          className='fixed z-10 top-20 left-8 bg-[#60a5fa] border-white border shadow-lg hover:shadow-xl p-4 space-y-4 w-48 rounded-xl'
         >
           {tags.map((tag) => (
             <Link
