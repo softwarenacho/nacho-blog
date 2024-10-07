@@ -20,7 +20,25 @@ const Admin = () => {
   const [post, setPost] = useState<PostProps>(emptyPost);
   const [notification, setNotification] = useState('');
   const [showNew, setShowNew] = useState(false);
-  const [searchInput, setSearchInput] = useState(''); // Search input state
+  const [searchInput, setSearchInput] = useState('');
+
+  const handleRemove = async (id: string) => {
+    const response = await fetch(`/api/posts?id=${id}`, {
+      method: 'DELETE',
+    });
+    if (response.ok) {
+      const data = await response.json();
+      setNotification(data.message);
+      setPost(emptyPost);
+      setShowNew(false);
+      setTimeout(() => {
+        setNotification('');
+      }, 2000);
+    } else {
+      const error = await response.json();
+      console.error('Error removing post:', error);
+    }
+  };
 
   const handleSave = async () => {
     const response = await fetch('/api/posts', {
@@ -33,7 +51,7 @@ const Admin = () => {
 
     if (response.ok) {
       const data = await response.json();
-      setNotification(`Post ${data.title} saved successfully!`);
+      setNotification(data.message);
       setPost(emptyPost);
       setShowNew(false);
       setTimeout(() => {
@@ -51,7 +69,7 @@ const Admin = () => {
   };
 
   return (
-    <main className='p-4 flex flex-col justify-center items-center'>
+    <main className='relative lg:p-4 flex flex-col justify-center items-center'>
       <div className='flex text-center mb-6'>
         {showNew ? (
           <h2 className='text-2xl text-white font-bold cursor-default'>
@@ -68,7 +86,10 @@ const Admin = () => {
         )}
         <button
           className='appearance-none drop-shadow-lg hover:drop-shadow-xl hover:scale-110 ml-4'
-          onClick={() => setShowNew(!showNew)}
+          onClick={() => {
+            setShowNew(!showNew);
+            setPost(emptyPost);
+          }}
         >
           <Image
             className={showNew ? 'rotate-45 grayscale' : ''}
@@ -89,12 +110,17 @@ const Admin = () => {
 
       {showNew && (
         <div className='flex flex-col space-y-8 max-w-xl p-8 rounded-xl border border-white bg-white w-full md:min-w-[48rem] mt-4 shadow-lg hover:shadow-xl'>
-          <NewPost post={post} setPost={setPost} handleSave={handleSave} />
+          <NewPost
+            post={post}
+            setPost={setPost}
+            handleSave={handleSave}
+            handleRemove={handleRemove}
+          />
         </div>
       )}
 
       {notification && (
-        <p className='text-green-500 mt-16 bg-white rounded-xl p-4'>
+        <p className='fixed bottom-2 border border-green-800 text-green-500 mt-16 bg-white rounded-xl p-4'>
           {notification}
         </p>
       )}

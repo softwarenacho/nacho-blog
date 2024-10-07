@@ -25,7 +25,6 @@ const Posts = ({
   searchInput?: string;
 }) => {
   const test = false; // TESTING FLAG
-
   const [posts, setPosts] = useState<PostProps[]>([]);
   const searchParams = useSearchParams();
   const tag = searchParams.get('tag');

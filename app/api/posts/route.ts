@@ -46,3 +46,21 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: 'Post created', data });
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  const id = request.nextUrl.searchParams.get('id');
+  if (!id) {
+    return NextResponse.json({ error: 'Post ID is required' }, { status: 400 });
+  }
+
+  const { data, error } = await supabase
+    .from('posts')
+    .delete()
+    .eq('id', id);
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 400 });
+  }
+
+  return NextResponse.json({ message: 'Post deleted', data });
+}

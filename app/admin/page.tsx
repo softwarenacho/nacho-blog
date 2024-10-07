@@ -29,7 +29,7 @@ const AdminPage = () => {
   };
 
   return (
-    <div className='container mx-auto p-4 pt-24'>
+    <div className='container h-dvh overflow-scroll mx-auto p-4 pt-24'>
       {!isAuthenticated ? (
         <div className='flex flex-col justify-center items-center'>
           <h1 className='text-4xl font-bold mb-6'>Admin Login</h1>

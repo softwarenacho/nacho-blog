@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { PostProps } from './Posts';
 const TagSelector = dynamic(() => import('./TagSelector'));
 
@@ -7,11 +7,13 @@ export interface NewPostProps {
   post: PostProps;
   setPost: Dispatch<SetStateAction<PostProps>>;
   handleSave: () => void;
+  handleRemove: (id: string) => void;
 }
 
-const NewPost = ({ post, handleSave, setPost }: NewPostProps) => {
+const NewPost = ({ post, handleSave, handleRemove, setPost }: NewPostProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const tags = ['quote', 'code', 'me', 'idea', 'design', 'test', 'link'];
+  const [warning, showWarning] = useState(false);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -74,12 +76,57 @@ const NewPost = ({ post, handleSave, setPost }: NewPostProps) => {
           {post.draft ? 'Draft' : 'Published'}
         </span>
       </div>
-      <button
-        type='submit'
-        className='bg-blue-500 text-white p-4 text-xl rounded-xl shadow-lg hover:shadow-xl w-full transition duration-200 ease-in-out'
-      >
-        {!post.id ? 'Save' : 'Update'}
-      </button>
+      <div className='flex w-full space-x-4'>
+        {!warning && (
+          <>
+            {post.id && (
+              <button
+                className='bg-red-100 hover:bg-red-300 text-gray-800 p-4 rounded-xl shadow-lg hover:shadow-xl w-32 transition duration-200 ease-in-out'
+                disabled={warning}
+                onClick={(e) => {
+                  e.preventDefault();
+                  showWarning(true);
+                }}
+              >
+                Remove
+              </button>
+            )}
+            <button
+              type='submit'
+              className='bg-blue-500 hover:bg-blue-300 text-white p-4 text-xl rounded-xl shadow-lg hover:shadow-xl w-full transition duration-200 ease-in-out'
+            >
+              {!post.id ? 'Save' : 'Update'}
+            </button>
+          </>
+        )}
+        {warning && (
+          <p className='flex flex-col md:flex-row items-center justify-center md:space-x-4'>
+            <span className='flex items-center'>
+              This will remove the post permanently. Are you sure?
+            </span>
+            <div className='flex space-x-4 mt-4 md:mt-0'>
+              <button
+                className='bg-gray-300 hover:bg-gray-500 text-white p-4 rounded-xl shadow-lg hover:shadow-xl w-32 transition duration-200 ease-in-out'
+                onClick={(e) => {
+                  e.preventDefault();
+                  showWarning(false);
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                className='bg-red-500 hover:bg-red-800 text-white font-bold p-4 rounded-xl shadow-lg hover:shadow-xl w-32 transition duration-200 ease-in-out'
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleRemove(`${post.id}`);
+                }}
+              >
+                REMOVE
+              </button>
+            </div>
+          </p>
+        )}
+      </div>
     </form>
   );
 };
